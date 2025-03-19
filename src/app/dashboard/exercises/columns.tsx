@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ArrowUpDown } from 'lucide-react'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
+import { ActionsColumn } from '@/components/data-table/columns/actions-column'
+import BadgesColumn from '@/components/data-table/columns/badges-column'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -70,29 +72,16 @@ export const columns: ColumnDef<Exercise>[] = [
     {
         accessorKey: 'secondaryMuscles',
         header: 'Secondary Muscles',
-        cell: ({ row }) => {
-            return (
-                row.getValue('secondaryMuscles') &&
-                row.getValue('secondaryMuscles').map((secondaryMuscle: string) => (
-                    <Badge key={secondaryMuscle} className="capitalize mx-1">
-                        {secondaryMuscle}
-                    </Badge>
-                ))
-            )
-        },
+        cell: ({ row }) => <BadgesColumn list={row.getValue('secondaryMuscles')} />,
     },
     {
         accessorKey: 'routines',
         header: 'Routines',
-        cell: ({ row }) => {
-            return (
-                row.getValue('routines') &&
-                row.getValue('routines').map((routine: string) => (
-                    <Badge key={routine} className="capitalize mx-1">
-                        {routine}
-                    </Badge>
-                ))
-            )
-        },
+        cell: ({ row }) => <BadgesColumn list={row.getValue('routines')} />,
+    },
+    {
+        accessorKey: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => <ActionsColumn entity="exercises" />,
     },
 ]
