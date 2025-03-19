@@ -50,14 +50,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex justify-between py-4">
                 <Input
                     placeholder="Filter exercises by name..."
                     value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
                     onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
                     className="max-w-sm"
                 />
-                <DataTableViewOptions table={table} />
+                <DataTableViewOptions table={table} entity="exercise" />
             </div>
             <div className="rounded-md border">
                 <Table>
