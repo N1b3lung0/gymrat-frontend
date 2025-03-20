@@ -2,15 +2,9 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ArrowUpDown } from 'lucide-react'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { ActionsColumn } from '@/components/data-table/columns/actions-column'
-import { BadgesColumn } from '@/components/data-table/columns/badges-column'
+import { ActionsColumn, BadgeColumn, BadgesColumn, SortedColumn } from '@/components/data-table/columns'
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type Exercise = {
     id: string
     name: string
@@ -43,16 +37,7 @@ export const columns: ColumnDef<Exercise>[] = [
     },
     {
         accessorKey: 'name',
-        header: ({ column }) => {
-            return (
-                <div className="flex justify-center">
-                    <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                        Name
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                </div>
-            )
-        },
+        header: ({ column }) => <SortedColumn column={column} columnName="Name" />,
         cell: ({ row }) => <div className="capitalize">{row.getValue('name')}</div>,
     },
     {
@@ -62,41 +47,18 @@ export const columns: ColumnDef<Exercise>[] = [
     },
     {
         accessorKey: 'level',
-        header: ({ column }) => (
-            <div className="flex justify-center">
-                <DataTableColumnHeader column={column} title="Level" />
-            </div>
-        ),
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Level" />,
         cell: ({ row }) => {
-            if (!row.getValue('level')) return null
-            return (
-                <div className="flex justify-center">
-                    <Badge
-                        className={
-                            row.getValue('level') === 'BEGINNER'
-                                ? 'bg-green-700'
-                                : row.getValue('level') === 'INTERMEDIATE'
-                                ? 'bg-sky-700'
-                                : 'bg-rose-700'
-                        }
-                    >
-                        {row.getValue('level')}
-                    </Badge>
-                </div>
-            )
+            const level: string = row.getValue('level')
+            const levelColor: string =
+                level === 'BEGINNER' ? 'bg-green-700' : level === 'INTERMEDIATE' ? 'bg-sky-700' : 'bg-rose-700'
+            return <BadgeColumn rowValue={level} color={levelColor} />
         },
     },
     {
         accessorKey: 'primaryMuscle',
         header: () => <div className="text-center">Primary Muscle</div>,
-        cell: ({ row }) => {
-            if (!row.getValue('primaryMuscle')) return null
-            return (
-                <div className="flex justify-center">
-                    <Badge className="capitalize mx-1">{row.getValue('primaryMuscle')}</Badge>
-                </div>
-            )
-        },
+        cell: ({ row }) => <BadgeColumn rowValue={row.getValue('primaryMuscle')} color="" />,
     },
     {
         accessorKey: 'secondaryMuscles',
