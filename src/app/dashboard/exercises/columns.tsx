@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { ArrowUpDown } from 'lucide-react'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { ActionsColumn } from '@/components/data-table/columns/actions-column'
-import BadgesColumn from '@/components/data-table/columns/badges-column'
+import { BadgesColumn } from '@/components/data-table/columns/badges-column'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -45,43 +45,62 @@ export const columns: ColumnDef<Exercise>[] = [
         accessorKey: 'name',
         header: ({ column }) => {
             return (
-                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                    Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                <div className="flex justify-center">
+                    <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                        Name
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                </div>
             )
         },
         cell: ({ row }) => <div className="capitalize">{row.getValue('name')}</div>,
     },
     {
         accessorKey: 'description',
-        header: 'Description',
+        header: () => <div className="text-center">Description</div>,
         cell: ({ row }) => <div className="capitalize">{row.getValue('description')}</div>,
     },
     {
         accessorKey: 'level',
-        header: ({ column }) => <DataTableColumnHeader column={column} title="Level" />,
-        cell: ({ row }) => row.getValue('level') && <Badge className="capitalize mx-1">{row.getValue('level')}</Badge>,
+        header: ({ column }) => (
+            <div className="flex justify-center">
+                <DataTableColumnHeader column={column} title="Level" />
+            </div>
+        ),
+        cell: ({ row }) => {
+            if (!row.getValue('level')) return null
+            return (
+                <div className="flex justify-center">
+                    <Badge className="capitalize mx-1">{row.getValue('level')}</Badge>
+                </div>
+            )
+        },
     },
     {
         accessorKey: 'primaryMuscle',
-        header: 'Primary Muscle',
-        cell: ({ row }) =>
-            row.getValue('primaryMuscle') && <Badge className="capitalize mx-1">{row.getValue('primaryMuscle')}</Badge>,
+        header: () => <div className="text-center">Primary Muscle</div>,
+        cell: ({ row }) => {
+            if (!row.getValue('primaryMuscle')) return null
+            return (
+                <div className="flex justify-center">
+                    <Badge className="capitalize mx-1">{row.getValue('primaryMuscle')}</Badge>
+                </div>
+            )
+        },
     },
     {
         accessorKey: 'secondaryMuscles',
-        header: 'Secondary Muscles',
+        header: () => <div className="text-center">Secondary Muscles</div>,
         cell: ({ row }) => <BadgesColumn list={row.getValue('secondaryMuscles')} />,
     },
     {
         accessorKey: 'routines',
-        header: 'Routines',
+        header: () => <div className="text-center">Routines</div>,
         cell: ({ row }) => <BadgesColumn list={row.getValue('routines')} />,
     },
     {
         accessorKey: 'actions',
-        header: 'Actions',
+        header: () => <div className="text-center">Actions</div>,
         cell: ({ row }) => <ActionsColumn entity="exercises" />,
     },
 ]

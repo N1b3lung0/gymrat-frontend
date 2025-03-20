@@ -17,7 +17,7 @@ import Link from 'next/link'
 export const ActionsColumn = ({ entity }: { entity: string }) => {
     const updatePath = `/dashboard/${entity}/update`
     return (
-        <div className="flex space-x-2">
+        <div className="flex justify-center">
             <Button asChild variant="ghost" size="icon">
                 <Link href={updatePath}>
                     <Edit />
@@ -33,7 +33,7 @@ export const ActionsColumn = ({ entity }: { entity: string }) => {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the exercise.
+                            This action cannot be undone. This will permanently delete the item.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
