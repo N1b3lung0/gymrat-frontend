@@ -1,12 +1,22 @@
+import { unstable_cache } from 'next/cache'
 import { columns } from './columns'
 import { DataTable } from '@/components/data-table/data-table'
 
-const data = await fetch('http://localhost:8080/exercises')
-const exercises = await data.json()
-console.log(exercises.items)
+const getExercises = unstable_cache(
+    async () => {
+        const data = await fetch('http://localhost:8080/exercises')
+        return await data.json()
+    },
+    ['exercises'],
+    { revalidate: 3600, tags: ['exercises'] }
+)
 
 export default async function Page() {
-    return (
+    const exercises = await getExercises()
+    console.log(exercises.items)
+    return !exercises.items ? (
+        <div>Loading...</div>
+    ) : (
         <div className="container mx-auto py-10">
             <DataTable columns={columns} data={exercises.items} />
         </div>
