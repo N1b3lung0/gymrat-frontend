@@ -71,7 +71,17 @@ export const columns: ColumnDef<Exercise>[] = [
             if (!row.getValue('level')) return null
             return (
                 <div className="flex justify-center">
-                    <Badge className="capitalize mx-1">{row.getValue('level')}</Badge>
+                    <Badge
+                        className={
+                            row.getValue('level') === 'BEGINNER'
+                                ? 'bg-green-700'
+                                : row.getValue('level') === 'INTERMEDIATE'
+                                ? 'bg-sky-700'
+                                : 'bg-rose-700'
+                        }
+                    >
+                        {row.getValue('level')}
+                    </Badge>
                 </div>
             )
         },
