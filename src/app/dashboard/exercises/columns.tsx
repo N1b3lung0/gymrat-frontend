@@ -4,6 +4,17 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { ActionsColumn, BadgeColumn, BadgesColumn, SortedColumn } from '@/components/data-table/columns'
+import { BadgeCheck, BadgeX, BadgeXIcon, LucideAArrowUp } from 'lucide-react'
+
+export type AuditFields = {
+    active: boolean
+    createdAt: string
+    createdBy: string
+    updatedAt: string
+    updatedBy: string
+    deletedAt: string
+    deletedBy: string
+}
 
 export type Exercise = {
     id: string
@@ -13,6 +24,7 @@ export type Exercise = {
     primaryMuscle: string
     secondaryMuscles: string[]
     routines: string[]
+    auditFields: AuditFields
 }
 
 export const columns: ColumnDef<Exercise>[] = [
@@ -71,8 +83,25 @@ export const columns: ColumnDef<Exercise>[] = [
         cell: ({ row }) => <BadgesColumn list={row.getValue('routines')} />,
     },
     {
+        accessorKey: 'active',
+        header: () => <div className="text-center">Active</div>,
+        cell: ({ row }) => {
+            const auditFields: AuditFields = row.original.auditFields
+            console.log(auditFields.active)
+            return (
+                <div className="capitalize flex justify-center">
+                    {auditFields.active ? (
+                        <BadgeCheck className="text-green-700" />
+                    ) : (
+                        <BadgeX className="text-red-700" />
+                    )}
+                </div>
+            )
+        },
+    },
+    {
         accessorKey: 'actions',
         header: () => <div className="text-center">Actions</div>,
-        cell: ({ row }) => <ActionsColumn entity="exercises" />,
+        cell: ({ row }) => <ActionsColumn entity="exercises" item={row.original} />,
     },
 ]
