@@ -63,7 +63,11 @@ export const columns: ColumnDef<Exercise>[] = [
         cell: ({ row }) => {
             const level: string = row.getValue('level')
             const levelColor: string =
-                level === 'BEGINNER' ? 'bg-green-700' : level === 'INTERMEDIATE' ? 'bg-sky-700' : 'bg-rose-700'
+                level === 'BEGINNER'
+                    ? 'bg-green-700 hover:bg-green-800'
+                    : level === 'INTERMEDIATE'
+                    ? 'bg-sky-700 hover:bg-sky-800'
+                    : 'bg-rose-700 hover:bg-rose-800'
             return <BadgeColumn rowValue={level} color={levelColor} />
         },
     },

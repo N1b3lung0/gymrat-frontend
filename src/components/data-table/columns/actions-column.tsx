@@ -41,7 +41,7 @@ export const ActionsColumn = ({ entity, item }: { entity: string; item: Exercise
             {item.auditFields.active ? (
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-red-500">
+                        <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600">
                             <Trash />
                         </Button>
                     </AlertDialogTrigger>
