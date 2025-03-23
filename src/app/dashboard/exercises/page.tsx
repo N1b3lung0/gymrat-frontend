@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { columns } from './columns'
 import { DataTable } from '@/components/data-table/data-table'
+import DataTableSkeleton from '@/components/data-table/data-table-skeleton'
 
 const getExercises = unstable_cache(
     async () => {
@@ -15,7 +16,7 @@ export default async function Page() {
     const exercises = await getExercises()
     console.log(exercises.items)
     return !exercises.items ? (
-        <div>Loading...</div>
+        <DataTableSkeleton />
     ) : (
         <div className="container mx-auto py-10">
             <DataTable columns={columns} data={exercises.items} />
