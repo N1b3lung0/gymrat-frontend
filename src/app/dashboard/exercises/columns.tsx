@@ -89,19 +89,15 @@ export const columns: ColumnDef<Exercise>[] = [
     {
         accessorKey: 'active',
         header: () => <div className="text-center">Active</div>,
-        cell: ({ row }) => {
-            const auditFields: AuditFields = row.original.auditFields
-            console.log(auditFields.active)
-            return (
-                <div className="capitalize flex justify-center">
-                    {auditFields.active ? (
-                        <BadgeCheck className="text-green-700" />
-                    ) : (
-                        <BadgeX className="text-red-700" />
-                    )}
-                </div>
-            )
-        },
+        cell: ({ row }) => (
+            <div className="capitalize flex justify-center">
+                {row.original.auditFields.active ? (
+                    <BadgeCheck className="text-green-700" />
+                ) : (
+                    <BadgeX className="text-red-700" />
+                )}
+            </div>
+        ),
     },
     {
         accessorKey: 'actions',
